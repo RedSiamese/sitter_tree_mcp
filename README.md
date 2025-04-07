@@ -136,7 +136,7 @@ int func(int a, int b, int c) {
     <identifier match="true" line_range="8-8" text="factorial"/>
 </function_definition>
 \`\`\`
-上方语法树中，`<identifier match="true" line_range="8-8" text="factorial"/>`在第8行查询到factorial，根据语法树分析，这一行实际是一个factorial标识符的使用，需要向前找到function_definition这类的定义或声明性质的父节点（如函数定义或声明，结构体、类定义或声明等），可知factorial是在4-9行factorial函数定义中被调用的，类似具体问题需要根据语法树进行具体分析。
+上方语法树中，`<identifier match="true" line_range="8-8" text="factorial"/>`在第8行查询到factorial，根据语法树分析，identifier标签表示这一行实际是一个factorial标识符的使用，需要向前找到function_definition这类的定义或声明性质的父节点（如函数定义或声明，结构体、类定义或声明等），可知factorial是在4-9行factorial函数定义中被调用的。类似的具体问题需要根据语法树进行具体分析。
 2. 在通过语法树获取行号范围后，如果要以该行号范围为依据对文件进行读取，应向行号范围前后多读几行，以确保代码块前后相应的注释部分也能被读到。
 
 
