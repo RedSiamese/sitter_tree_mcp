@@ -43,7 +43,7 @@ pip install dist/sitter_tree_mcp-0.1.0-py3-none-any.whl
 "mcpServers": {
   "sitter_tree": {
     "command": "python",
-    "args": ["-m", "sitter_tree_mcp.mcp_service"]
+    "args": ["-m", "sitter_tree_mcp"]
   }
 }
 ```
@@ -128,14 +128,14 @@ int func(int a, int b, int c) {
 
 ## 注意事项
 1. 使用search_in_code工具时，查询到关键字的所在节点，可能存在于某一行代码调用当中，此时可能需要分析他的一系列父节点代码块，寻找出包含这行函数调用的具体代码块行号范围，例如查找名为factorial函数：
-```
+\`\`\`
 <function_definition line_range="4-9" declaration_text="int factorial(int n)">
     <function_declarator line_range="4-4" text="int factorial(int n)">
         <identifier match="true" line_range="4-4" text="factorial"/>
     </function_declarator>
     <identifier match="true" line_range="8-8" text="factorial"/>
 </function_definition>
-```
+\`\`\`
 上方语法树中，`<identifier match="true" line_range="8-8" text="factorial"/>`在第8行查询到factorial，根据语法树分析，实际这一行是一个factorial函数的函数调用，需要向前找到function_definition，可知factorial是在4-9行factorial函数定义中被调用的，类似具体问题需要根据语法树进行具体分析。
 2. 在通过语法树获取行号范围后，如果要以该行号范围为依据对文件进行读取，应向行号范围前后多读几行，以确保代码块前后相应的注释部分也能被读到。
 
@@ -188,33 +188,8 @@ Sitter Tree MCP 基于 Tree-sitter 解析器，将源代码转换为抽象语法
 
 **参数**:
 - `path`: 文件或目录路径
-- `keyword`: 要搜索的关键字
+- `keywords`: 要搜索的关键字列表
 
 **返回**:
 包含搜索结果的 XML 字符串映射字典。
 
-## 示例输出
-
-以下是一个简单 C++ 类的概览模式语法树示例：
-
-```xml
-<?xml version="1.0" ?>
-<ast file="example.cpp" language="cpp" mode="overview">
-  <translation_unit line_range="1-24">
-    <function_definition line_range="4-9" declaration_text="int factorial(int n)">
-      <!-- Function content -->
-    </function_definition>
-    <class_specifier line_range="12-22" declaration_text="class Calculator">
-      <function_definition line_range="14-14" declaration_text="Calculator() : value(0)">
-        <!-- Constructor definition -->
-      </function_definition>
-      <function_definition line_range="17-19" declaration_text="void computeFactorial(int n)">
-        <!-- Method definition -->
-      </function_definition>
-      <function_definition line_range="22-24" declaration_text="int getValue() const">
-        <!-- Method definition -->
-      </function_definition>
-    </class_specifier>
-  </translation_unit>
-</ast>
-```
