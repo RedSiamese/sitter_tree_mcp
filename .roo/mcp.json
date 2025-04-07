@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "sitter_tree": {
+      "command": "python",
+      "args": [
+        "-m",
+        "sitter_tree_mcp"
+      ],
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}
