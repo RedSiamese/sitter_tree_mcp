@@ -18,7 +18,10 @@ class ParseToTreeModel(BaseModel):
 
 class FindNodesByTypeModel(BaseModel):
     code: Annotated[str, Field(description="要解析的源代码文件或目录")]
-    keywords: Annotated[list[str], Field(description="关键字列表，关键字包括类名、结构体名、成员（函数、变量、方法）名、变量名等。")]
+    keywords: Annotated[list[str], Field(description="待查找的关键字列表，"
+                                         "关键字包括类名、结构体名、成员（函数、变量、方法）名、变量名等。"
+                                         "每个关键字只能由单个名称组成（如\"func\"、\"Object\"），"
+                                         "**不支持**查找表达式（如\"func(\"、\"new int\"等表达式）")]
 
 
 async def serve():
@@ -35,7 +38,8 @@ async def serve():
             ),
             Tool(
                 name="search_in_code",
-                description="在源代码中查找一个或多个特定关键字（输入关键字列表，例如[\"func1\"]、[\"func1\", \"func2\"]等），包括类名、结构体名、成员（函数、变量、方法）名，变量名等的节点，返回可能包含有相关节点信息的语法树分支。",
+                description="在源代码中查找一个或多个特定关键字（输入关键字列表，例如[\"func1\"]、[\"func1\", \"func2\"]等），"
+                            "包括类名、结构体名、成员（函数、变量、方法）名，变量名等的节点，返回可能包含有相关节点信息的语法树分支。",
                 inputSchema=FindNodesByTypeModel.model_json_schema(),
             ),
         ]
@@ -56,7 +60,8 @@ async def serve():
             ),
             Prompt(
                 name="search_in_code",
-                description="在源代码中查找一个或多个特定关键字（输入关键字列表，例如[\"func1\"]、[\"func1\", \"func2\"]等），包括类名、结构体名、成员（函数、变量、方法）名，变量名等的节点，返回可能包含有相关节点信息的语法树分支。",
+                description="在源代码中查找一个或多个特定关键字（输入关键字列表，例如[\"func1\"]、[\"func1\", \"func2\"]等），"
+                            "包括类名、结构体名、成员（函数、变量、方法）名，变量名等的节点，返回可能包含有相关节点信息的语法树分支。",
                 arguments=[
                     PromptArgument(
                         name="code", 
@@ -65,7 +70,10 @@ async def serve():
                     ),
                     PromptArgument(
                         name="keywords", 
-                        description="关键字列表，关键字包括类名、结构体名、成员（函数、变量、方法）名、变量名等。", 
+                        description="待查找的关键字列表，"
+                                         "关键字包括类名、结构体名、成员（函数、变量、方法）名、变量名等。"
+                                         "每个关键字只能由单个名称组成（如\"func\"、\"Object\"），"
+                                         "**不支持**查找表达式（如\"func(\"、\"new int\"等表达式）", 
                         required=True
                     ),
                 ],

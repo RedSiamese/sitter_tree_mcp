@@ -288,7 +288,7 @@ class BaseParser:
 
             # 优化树结构：如果没有属性且只有一个子节点，直接返回子节点，省略当前节点
             has_attributes = "attributes" in result and len(result["attributes"]) > 0
-            if not has_attributes and len(matching_children) == 1:
+            if not has_attributes and len(matching_children) == 1 and "attributes" not in matching_children[0]:
                 return True, matching_children[0]
                 
             return True, result
