@@ -1,3 +1,4 @@
+
 class SitterTreeError(Exception):
     """基础异常类，所有自定义异常继承自此类"""
     pass

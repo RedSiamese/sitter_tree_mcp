@@ -4,20 +4,27 @@
 #include <iostream>
 #include <memory>
 
+struct Node_base {};
+
 // 简单链表节点定义
 template<typename T>
-struct Node {
+struct Node 
+: Node_base {
     T data;
     std::shared_ptr<Node<T>> next;
     
     Node(T value) : data(value), next(nullptr) {}
+
+    void print() const {
+        std::cout << data << " -> " << (next ? next->data : "nullptr") << std::endl;
+    }
 };
 
 // 链表类实现
 template<typename T>
 class LinkedList {
 private:
-    std::shared_ptr<Node<T>> head;
+    std::shared_ptr<Node<T>> head;      // 链表头指针
     size_t size;
     
 public:

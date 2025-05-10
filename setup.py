@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8", errors="ignore") as fh:
 
 setup(
     name="sitter_tree_mcp",
-    version="0.1.0",
+    version="0.2.0",
     author="wxyri",
     author_email="your.email@example.com",
     description="一个用于解析代码生成语法树的工具",

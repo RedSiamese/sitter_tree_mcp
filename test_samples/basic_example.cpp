@@ -30,6 +30,6 @@ private:
 // 主函数
 int main() {
     Calculator calc;
-    calc.computeFactorial(5);
+    calc.computeFactorial<Calculator>(5);
     return calc.getValue();
 }

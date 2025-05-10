@@ -1,14 +1,15 @@
 import os
 import argparse
-from .impl.sitter_tree import parse_code, search_in_code
+from sitter_tree_mcp.impl.sitter_tree import parse_code, search_in_code, deep_search_in_code
 
 def main():
     """命令行入口点"""
     parser = argparse.ArgumentParser(description='代码语法树解析工具')
-    parser.add_argument('path', help='代码文件或目录路径')
+    parser.add_argument('path', nargs='+', help='代码文件或目录路径')
     parser.add_argument('--mode', choices=['detailed', 'overview'], default='detailed',
                         help='解析模式: detailed(详细) 或 overview(概览)')
-    parser.add_argument('--search', nargs='+', help='搜索关键字') # str列表
+    parser.add_argument('--search', nargs='+', help='反向搜索关键字') # str列表
+    parser.add_argument('--deep_search', nargs='+', help='递进搜索关键字') # str列表
     parser.add_argument('--test', action='store_true', help='运行测试样例')
     
     args = parser.parse_args()
@@ -25,6 +26,16 @@ def main():
     if args.search:
         # 搜索模式
         result = search_in_code(args.path, args.search)
+        if result:
+            print(f"在 {len(result)} 个文件中找到关键字 '{args.search}'")
+            for file_path, xml_str in result.items():
+                print(f"\n文件: {file_path}")
+                print(xml_str)
+        else:
+            print(f"未找到关键字 '{args.search}'")
+    if args.deep_search:
+        # 搜索模式
+        result = deep_search_in_code(args.path, args.search)
         if result:
             print(f"在 {len(result)} 个文件中找到关键字 '{args.search}'")
             for file_path, xml_str in result.items():
